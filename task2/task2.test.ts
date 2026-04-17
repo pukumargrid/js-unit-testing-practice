@@ -29,11 +29,13 @@ describe('QuantityValidator', () => {
     it('should return invalid for quantity of zero', () => {
       const result = validator.validate(0);
       expect(result.isValid).toBe(false);
+      expect(result.error).toBe('Quantity should be greater than zero');
     });
 
     it('should return invalid for negative quantity', () => {
       const result = validator.validate(-3);
       expect(result.isValid).toBe(false);
+      expect(result.error).toBe('Quantity cannot be negative');
     });
   });
 

@@ -75,4 +75,38 @@ describe('getUtcStringDate', () => {
       expect(getUtcStringDate()).toBe('2023-03-20T09:00:00Z');
     });
   });
+
+  describe('invalid date handling', () => {
+    it('throws an error when given an invalid date object', () => {
+      const invalidDate = new Date('not-a-date');
+      expect(() => getUtcStringDate(invalidDate)).toThrow('Invalid date');
+    });
+
+    it('throws an error when given a date created from NaN', () => {
+      const invalidDate = new Date(NaN);
+      expect(() => getUtcStringDate(invalidDate)).toThrow('Invalid date');
+    });
+  });
+
+  describe('edge cases', () => {
+    it('handles leap year date correctly', () => {
+      const date = new Date('2024-02-29T12:00:00Z');
+      expect(getUtcStringDate(date)).toBe('2024-02-29T12:00:00Z');
+    });
+
+    it('handles epoch date (Unix timestamp 0)', () => {
+      const date = new Date(0);
+      expect(getUtcStringDate(date)).toBe('1970-01-01T00:00:00Z');
+    });
+
+    it('pads single-digit months and days with leading zeros', () => {
+      const date = new Date('2023-03-05T01:02:03Z');
+      expect(getUtcStringDate(date)).toBe('2023-03-05T01:02:03Z');
+    });
+
+    it('handles date constructed from a timestamp', () => {
+      const date = new Date(1672531200000); // 2023-01-01T00:00:00Z
+      expect(getUtcStringDate(date)).toBe('2023-01-01T00:00:00Z');
+    });
+  });
 });

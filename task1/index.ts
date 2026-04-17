@@ -6,7 +6,7 @@ export const validateUserName = async (userName: string): Promise<boolean> => {
   }
 
   try {
-    return fetchIsUserNameAvailable(userName);
+    return await fetchIsUserNameAvailable(userName);
   } catch (e) {
     return false;
   }
